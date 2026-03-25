@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Order System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            margin: 100px auto;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        button {
+            background: orange;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkorange;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Food Order Login</h2>
+
+    <form action="login" method="post">
+        <input type="text" name="username" placeholder="Enter Name" required><br>
+        <input type="number" name="phone" placeholder="Enter Mobile" required><br>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+</body>
+</html>
