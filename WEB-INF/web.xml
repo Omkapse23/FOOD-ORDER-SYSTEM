@@ -17,23 +17,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>MenuServlet</servlet-name>
-        <servlet-class>MenuServlet</servlet-class>
+        <servlet-name>CategoriesServlet</servlet-name>
+        <servlet-class>CategoriesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>MenuServlet</servlet-name>
-        <url-pattern>/menu</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>OrderServlet</servlet-name>
-        <servlet-class>OrderServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>OrderServlet</servlet-name>
-        <url-pattern>/order</url-pattern>
+        <servlet-name>CategoriesServlet</servlet-name>
+        <url-pattern>/categories</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -46,5 +36,14 @@
         <url-pattern>/items</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>OrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
 
 </web-app>
