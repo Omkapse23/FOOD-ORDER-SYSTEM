@@ -9,8 +9,22 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
                 throws IOException {
 
-                    // Get the username from the form
+                    PrintWriter out = res.getWriter();
+
+                    // Get the username & Phone number from the form
                     String name = req.getParameter("username");
+                    String  phone = req.getParameter("phone");
+
+                    // name validation
+                    if(name == null || name.trim().isEmpty()) {
+                        out.println("<h3>Name cannot be empty</h3>");
+                        return;
+                    }
+
+                    if(phone == null || phone.trim().isEmpty()) {
+                        out.println("<h3>Phone number cannot be empty</h3>");
+                        return;
+                    }
 
                     // Create a session and store the username
                     HttpSession session = req.getSession();
