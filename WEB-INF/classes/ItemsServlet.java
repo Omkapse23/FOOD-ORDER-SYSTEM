@@ -44,7 +44,7 @@ public class ItemsServlet extends HttpServlet {
         out.println("<div class='box'>");
 
         out.println("<h2>" + category.toUpperCase() + " Menu</h2>");
-        out.println("<form action='order' method='post'>");
+        out.println("<form action='cart' method='post'>");
 
         // PIZZA
         if ("pizza".equalsIgnoreCase(category)) {
@@ -136,11 +136,11 @@ public class ItemsServlet extends HttpServlet {
             out.println("<div class='item'>Mint Cooler (₹70) <input type='number' name='mintcooler' min='0' max='10'></div>");
         }
 
-        out.println("<button type='submit'>Order Now</button>");
+        out.println("<button type='submit'>Add to Cart</button>");
         out.println("</form>");
 
         // Back button
-        out.println("<a href='categories'>⬅ Back</a>");
+        out.println("<a href='cart'>View Cart</a>");
 
         out.println("</div>");
         out.println("</body>");

@@ -1,99 +1,26 @@
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.*;
+import java.util.*;
 
-// This servlet handles processing the order and displaying the order summary
 public class OrderServlet extends HttpServlet {
 
-    // Handle POST requests to process the order and show summary
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
 
-        // Set content type and get writer
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
 
-        // Get all values
-        int classic = getValue(req, "classic");
-        int paneer = getValue(req, "paneer");
-        int margherita = getValue(req, "margherita");
-        int farmhouse = getValue(req, "farmhouse");
-        int veggie = getValue(req, "veggie");
-        int corn = getValue(req, "corn");
-
-        int vegclassic = getValue(req, "vegclassic");
-        int vegcheese = getValue(req, "vegcheese");
-        int paneerburger = getValue(req, "paneerburger");
-        int crispyveg = getValue(req, "crispyveg");
-        int doublecheese = getValue(req, "doublecheese");
-        int cheesepaneer = getValue(req, "cheesepaneer");
-
-        int paneerwrap = getValue(req, "paneerwrap");
-        int vegwrap = getValue(req, "vegwrap");
-        int aloowrap = getValue(req, "aloowrap");
-        int vegmayo = getValue(req, "vegmayo");
-        int masalawrap = getValue(req, "masalawrap");
-        int eggroll = getValue(req, "eggroll");
-
-        int frenchfries = getValue(req, "frenchfries");
-        int vegpuff = getValue(req, "vegpuff");
-        int corncup = getValue(req, "corncup");
-        int vegcutlet = getValue(req, "vegcutlet");
-        int garlicbread = getValue(req, "garlicbread");
-        int garlicbreadcheese = getValue(req, "garlicbreadcheese");
-
-        int brownie = getValue(req, "brownie");
-        int lavacake = getValue(req, "lavacake");
-        int vanilla = getValue(req, "vanillaicecream");
-        int chocolate = getValue(req, "chocolateicecream");
-        int strawberry = getValue(req, "strawberryicecream");
-        int gulab = getValue(req, "gulabjamun");
-
-        int cocacola = getValue(req, "cocacola");
-        int pepsi = getValue(req, "pepsi");
-        int sprite = getValue(req, "sprite");
-        int fanta = getValue(req, "fanta");
-        int thumsup = getValue(req, "thumsup");
-        int dew = getValue(req, "mountaindew");
-
-        int espresso = getValue(req, "espresso");
-        int cappuccino = getValue(req, "cappuccino");
-        int latte = getValue(req, "latte");
-        int americano = getValue(req, "americano");
-        int mocha = getValue(req, "mocha");
-        int coldcoffee = getValue(req, "coldcoffee");
-
-        int chocoshake = getValue(req, "chocolateshake");
-        int vanillashake = getValue(req, "vanillashake");
-        int strawberryshake = getValue(req, "strawberryshake");
-        int mangoshake = getValue(req, "mangoshake");
-        int oreoshake = getValue(req, "oreoshake");
-        int coldcoffeeshake = getValue(req, "coldcoffeeshake");
-
-        int lemonade = getValue(req, "lemonade");
-        int icedtea = getValue(req, "icedtea");
-        int mojito = getValue(req, "virginmojito");
-        int coldcoffeeother = getValue(req, "coldcoffeeother");
-        int fruitpunch = getValue(req, "fruitpunch");
-        int mintcooler = getValue(req, "mintcooler");
-
-        //  Total calculation
-        int total =
-                (classic * 49) + (paneer * 99) + (margherita * 200) + (farmhouse * 250) + (veggie * 230) + (corn * 220) +
-                (vegclassic * 120) + (vegcheese * 140) + (paneerburger * 180) + (crispyveg * 150) + (doublecheese * 220) + (cheesepaneer * 250) +
-                (paneerwrap * 180) + (vegwrap * 150) + (aloowrap * 120) + (vegmayo * 140) + (masalawrap * 160) + (eggroll * 100) +
-                (frenchfries * 80) + (vegpuff * 60) + (corncup * 70) + (vegcutlet * 90) + (garlicbread * 110) + (garlicbreadcheese * 140) +
-                (brownie * 90) + (lavacake * 120) + (vanilla * 50) + (chocolate * 60) + (strawberry * 55) + (gulab * 40) +
-                (cocacola * 40) + (pepsi * 40) + (sprite * 40) + (fanta * 40) + (thumsup * 40) + (dew * 40) +
-                (espresso * 100) + (cappuccino * 120) + (latte * 150) + (americano * 110) + (mocha * 130) + (coldcoffee * 90) +
-                (chocoshake * 120) + (vanillashake * 100) + (strawberryshake * 110) + (mangoshake * 130) + (oreoshake * 150) + (coldcoffeeshake * 140) +
-                (lemonade * 60) + (icedtea * 70) + (mojito * 80) + (coldcoffeeother * 90) + (fruitpunch * 100) + (mintcooler * 70);
-
-        // Get username from session
         HttpSession session = req.getSession();
+
+        // Get cart from session
+        Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("cart");
+
+        // Get username
         String user = (String) session.getAttribute("user");
 
-        //  HTML + CSS
+        int total = 0;
+
         out.println("<html><head><title>Order Summary</title>");
         out.println("<style>");
         out.println("body { font-family: Arial; background: #f4f4f4; text-align:center; }");
@@ -101,37 +28,111 @@ public class OrderServlet extends HttpServlet {
         out.println(".item { margin:8px 0; }");
         out.println(".total { margin-top:15px; font-size:22px; font-weight:bold; color:green; }");
         out.println("a { display:inline-block; margin-top:15px; padding:10px 15px; background:orange; color:white; text-decoration:none; border-radius:5px; }");
-        out.println("a:hover { background:darkorange; }");
         out.println("</style>");
         out.println("</head><body>");
 
         out.println("<div class='box'>");
-        out.println("<h2>🧾 Order Summary</h2>");
+        out.println("<h2>Order Summary</h2>");
         out.println("<p><b>Customer:</b> " + user + "</p>");
 
-        // Show ordered items
-        show(out, "Classic Pizza", classic);
-        show(out, "Paneer Pizza", paneer);
-        show(out, "Veg Burger", vegclassic);
-        show(out, "French Fries", frenchfries);
-        show(out, "Chocolate Shake", chocoshake);
-        show(out, "Coca Cola", cocacola);
+        if (cart == null || cart.isEmpty()) {
+            out.println("<p>Your cart is empty!</p>");
+        } else {
 
-        out.println("<div class='total'>Total: ₹" + total + "</div>");
-        out.println("<a href='categories'>🔄 Order Again</a>");
-        out.println("</div>");
+            for (String item : cart.keySet()) {
 
-        out.println("</body></html>");
-    }
+                int qty = cart.get(item);
+                int price = 0;
+                String name = item;
 
-    private int getValue(HttpServletRequest req, String name) {
-        String val = req.getParameter(name);
-        return (val != null && !val.isEmpty()) ? Integer.parseInt(val) : 0;
-    }
+                switch (item) {
 
-    private void show(PrintWriter out, String item, int qty) {
-        if (qty > 0) {
-            out.println("<div class='item'>" + item + ": " + qty + "</div>");
+                    //  PIZZA
+                    case "classic": price = 49; name = "Classic Pizza"; break;
+                    case "paneer": price = 99; name = "Paneer Capsicum Pizza"; break;
+                    case "margherita": price = 200; name = "Margherita Pizza"; break;
+                    case "farmhouse": price = 250; name = "Farmhouse Pizza"; break;
+                    case "veggie": price = 230; name = "Veggie Delight Pizza"; break;
+                    case "corn": price = 220; name = "Corn & Cheese Pizza"; break;
+
+                    // BURGER
+                    case "vegclassic": price = 120; name = "Veg Classic Burger"; break;
+                    case "vegcheese": price = 140; name = "Veg Cheese Burger"; break;
+                    case "paneerburger": price = 180; name = "Paneer Burger"; break;
+                    case "crispyveg": price = 150; name = "Crispy Veg Burger"; break;
+                    case "doublecheese": price = 220; name = "Double Cheese Burger"; break;
+                    case "cheesepaneer": price = 250; name = "Double Cheese Paneer Burger"; break;
+
+                    // WRAPS
+                    case "paneerwrap": price = 180; name = "Paneer Tikka Wrap"; break;
+                    case "vegwrap": price = 150; name = "Veg Cheese Wrap"; break;
+                    case "aloowrap": price = 120; name = "Aloo Tikki Wrap"; break;
+                    case "vegmayo": price = 140; name = "Veg Mayo Roll"; break;
+                    case "masalawrap": price = 160; name = "Masala Roll"; break;
+                    case "eggroll": price = 100; name = "Egg Roll"; break;
+
+                    //  SIDES
+                    case "frenchfries": price = 80; name = "French Fries"; break;
+                    case "vegpuff": price = 60; name = "Veg Pizza Puff"; break;
+                    case "corncup": price = 70; name = "Corn Cup"; break;
+                    case "vegcutlet": price = 90; name = "Veg Cutlet"; break;
+                    case "garlicbread": price = 110; name = "Garlic Bread"; break;
+                    case "garlicbreadcheese": price = 140; name = "Garlic Bread with Cheese"; break;
+
+                    // DESSERTS
+                    case "brownie": price = 90; name = "Chocolate Brownie"; break;
+                    case "lavacake": price = 120; name = "Choco Lava Cake"; break;
+                    case "vanillaicecream": price = 50; name = "Vanilla Ice Cream"; break;
+                    case "chocolateicecream": price = 60; name = "Chocolate Ice Cream"; break;
+                    case "strawberryicecream": price = 55; name = "Strawberry Ice Cream"; break;
+                    case "gulabjamun": price = 40; name = "Gulab Jamun"; break;
+
+                    // DRINKS
+                    case "cocacola": price = 40; name = "Coca Cola"; break;
+                    case "pepsi": price = 40; name = "Pepsi"; break;
+                    case "sprite": price = 40; name = "Sprite"; break;
+                    case "fanta": price = 40; name = "Fanta"; break;
+                    case "thumsup": price = 40; name = "Thums Up"; break;
+                    case "mountaindew": price = 40; name = "Mountain Dew"; break;
+
+                    // COFFEE
+                    case "espresso": price = 100; name = "Espresso"; break;
+                    case "cappuccino": price = 120; name = "Cappuccino"; break;
+                    case "latte": price = 150; name = "Latte"; break;
+                    case "americano": price = 110; name = "Americano"; break;
+                    case "mocha": price = 130; name = "Mocha"; break;
+                    case "coldcoffee": price = 90; name = "Cold Coffee"; break;
+
+                    //  SHAKES
+                    case "chocolateshake": price = 120; name = "Chocolate Shake"; break;
+                    case "vanillashake": price = 100; name = "Vanilla Shake"; break;
+                    case "strawberryshake": price = 110; name = "Strawberry Shake"; break;
+                    case "mangoshake": price = 130; name = "Mango Shake"; break;
+                    case "oreoshake": price = 150; name = "Oreo Shake"; break;
+                    case "coldcoffeeshake": price = 140; name = "Cold Coffee Shake"; break;
+
+                    //  OTHER DRINKS
+                    case "lemonade": price = 60; name = "Lemonade"; break;
+                    case "icedtea": price = 70; name = "Iced Tea"; break;
+                    case "virginmojito": price = 80; name = "Virgin Mojito"; break;
+                    case "coldcoffeeother": price = 90; name = "Cold Coffee"; break;
+                    case "fruitpunch": price = 100; name = "Fruit Punch"; break;
+                    case "mintcooler": price = 70; name = "Mint Cooler"; break;
+                }
+
+                int itemTotal = price * qty;
+                total += itemTotal;
+
+                out.println("<div class='item'>" + name + " x " + qty + " = ₹" + itemTotal + "</div>");
+            }
+
+            out.println("<div class='total'>Total: ₹" + total + "</div>");
         }
+
+        out.println("<a href='categories'> Order Again</a>");
+        out.println("</div></body></html>");
+
+        // Clear cart after order
+        session.removeAttribute("cart");
     }
 }
