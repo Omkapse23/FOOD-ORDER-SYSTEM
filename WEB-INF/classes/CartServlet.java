@@ -77,7 +77,7 @@ public class CartServlet extends HttpServlet {
             out.println("</form>");
         }
 
-        out.println("<a href='categories' class='link'>⬅ Continue Shopping</a>");
+        out.println("<a href='categories' class='link'>Continue Shopping</a>");
 
         out.println("</div>");
         out.println("</body></html>");

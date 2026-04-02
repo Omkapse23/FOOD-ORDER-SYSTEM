@@ -33,7 +33,7 @@ public class OrderServlet extends HttpServlet {
 
         out.println("<div class='box'>");
         out.println("<h2>Order Summary</h2>");
-        out.println("<p><b>Customer:</b> " + user + "</p>");
+        out.println("<p><b>User :</b> " + user + "</p>");
 
         if (cart == null || cart.isEmpty()) {
             out.println("<p>Your cart is empty!</p>");
